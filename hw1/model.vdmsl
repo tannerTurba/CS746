@@ -1,0 +1,4 @@
+functions
+    example: nat -> nat
+    example(a) == 
+        a + 1;

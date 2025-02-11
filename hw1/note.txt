@@ -1,0 +1,5 @@
+VDM files have one of the following file extensions:
+ - .vdmsl
+ - .vdmpp
+ - .vdmrt
+
