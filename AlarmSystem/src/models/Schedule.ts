@@ -2,8 +2,8 @@ import { Expert } from "./Expert";
 import { Period } from "./Plant";
 
 export class Schedule extends Map<Period, Expert[]> {
-    constructor() {
-        super();
+    constructor(map: Iterable<readonly [Period, Expert[]]>) {
+        super(map);
     }
 
     // Ensure there are experts for each period and each are unique

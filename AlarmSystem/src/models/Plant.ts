@@ -31,7 +31,9 @@ export class Plant {
     }
 
     getNumberOfExperts(period: Period): number {
-        if (Object.keys(this.schedule).includes(period)) {
+        console.log(this.schedule);
+        console.log(this.schedule.keys());
+        if ([...this.schedule.keys()].includes(period)) {
             const experts = this.schedule.get(period);
     
             if (experts) {
@@ -55,7 +57,7 @@ export class Plant {
         if (this.schedule.has(period) && this.alarms.includes(alarm)) {
             let availableExperts = this.schedule.get(period);
             if (availableExperts) {
-                availableExperts = availableExperts.filter((x) => x.qualification === alarm.qualification);
+                availableExperts = availableExperts.filter((x) => x.qualifications.includes(alarm.qualification));
                 if (availableExperts.length > 0) {
                     return availableExperts[0];
                 }
@@ -65,7 +67,7 @@ export class Plant {
     }
 
     private qualificationsOk(experts: Expert[], qualification: Qualification): boolean {
-        const allQualis = experts.map(x => x.qualification);
+        const allQualis = experts.map(x => x.qualifications).flat();
         return allQualis.includes(qualification);
     }
 }

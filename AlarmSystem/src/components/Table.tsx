@@ -1,26 +1,41 @@
+import { Expert } from "../models/Expert";
+import { Schedule } from "../models/Schedule";
+
 export interface ITableProps {
-    
+    schedule: Schedule,
+    experts: Expert[],
 }
 
-export function Table(props?: ITableProps) {
-    const experts: string[] = ["Expert 1", "Expert 2", "Expert 3", "Expert 4", "Expert 5"];
-    const periods: string[] = ["Period 1", "Period 2", "Period 3", "Period 4", "Period 5"];
+export function Table(props: ITableProps) {
+    const { schedule, experts } = props;
+    let i = 0;
+    
+    const getKey = () => {
+        i++;
+        return i;
+    }
 
     return (
         <table>
             <thead>
                 <tr>
                     <th></th>
-                    {experts.map((expert) => <th>{expert}</th>)}
+                    {experts.map((e) => {
+                        return <th key={getKey()}>{`Expert ${e.id}`}</th>
+                    })}
                 </tr>
             </thead>
             <tbody>
-                {periods.map((period) => {
+                {[...schedule.keys()].map((period) => {
+                    const scheduledExperts = schedule.get(period) ?? [];
                     return (
-                        <tr>
-                            <th>{period}</th>
+                        <tr key={getKey()}>
+                            <th key={getKey()}>{period}</th>
+                            {experts.map((expert) => {
+                                return <td key={getKey()}>{scheduledExperts.includes(expert) ? "ok" : ""}</td>
+                            })}
                         </tr>
-                    );
+                    )
                 })}
             </tbody>
         </table>

@@ -1,3 +1,5 @@
+import { OptionType } from "./Alarm";
+
 export enum Qualification {
     ELEC = "Electrical",
     MECH = "Mechanical",
@@ -5,12 +7,16 @@ export enum Qualification {
     CHEM = "Chemical",
 }
 
-export class Expert {
+export class Expert implements OptionType {
     id: number;
-    qualification: Qualification;
+    qualifications: Qualification[];
 
-    constructor(id: number, qualification: Qualification) {
+    constructor(id: number, qualification: Qualification[]) {
         this.id = id;
-        this.qualification = qualification;
+        this.qualifications = qualification;
+    }
+
+    toString(): string {
+        return `Expert ${this.id}`;
     }
 }
