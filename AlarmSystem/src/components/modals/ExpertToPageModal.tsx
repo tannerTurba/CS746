@@ -6,8 +6,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
-import { Period, Plant } from '../../models/Plant';
+import { Plant } from '../../models/Plant';
 import { Alarm } from '../../models/Alarm';
+import { Period } from '../../models/Period';
 
 export interface ExpertToPageModalProps {
     plant: Plant
@@ -17,7 +18,7 @@ export default function ExpertToPageModal(props: ExpertToPageModalProps) {
     const { plant } = props;
 
     const [alarm, setAlarm] = useState<Alarm>(plant.alarms[0]);
-    const [period, setPeriod] = useState<Period>(Period.P1);
+    const [period, setPeriod] = useState<Period>();
     const [open, setOpen] = useState(false);
 
     return (

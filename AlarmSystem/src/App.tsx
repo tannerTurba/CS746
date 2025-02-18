@@ -1,51 +1,96 @@
 import './App.css'
 import Grid from '@mui/material/Grid2';
 import { Table } from './components/Table';
-import { Period, Plant } from './models/Plant';
-import { Expert, Qualification } from './models/Expert';
+import { Plant } from './models/Plant';
+import { Expert } from './models/Expert';
 import { Schedule } from './models/Schedule';
 import { Alarm } from './models/Alarm';
 import ExpertsModal from './components/modals/ExpertsModal';
 import ExpertOnDutyModal from './components/modals/ExpertOnDutyModal';
 import ExpertToPageModal from './components/modals/ExpertToPageModal';
-import { useState } from 'react';
-import { Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import TabsForm from './components/Tabs/TabsForm';
+import { Qualification } from './models/Qualification';
+import { Period } from './models/Period';
+
+const ELEC = new Qualification("Electrical");
+const MECH = new Qualification("Mechanical");
+const BIO = new Qualification("Biological");
+const CHEM = new Qualification("Chemical")
+
+const P1 = new Period("Monday AM");
+const P2 = new Period("Monday PM");
+const P3 = new Period("Tuesday AM");
+const P4 = new Period("Tuesday PM");
+const P5 = new Period("Wednesday AM");
 
 function App() {
+  const [qualifications, setQualifications] = useState<Qualification[]>([ELEC, MECH, BIO, CHEM]);
+  const [periods, setPeriods] = useState<Period[]>([P1, P2, P3, P4, P5]);
   const [experts, setExperts] = useState<Expert[]>([
-    new Expert(1, [Qualification.ELEC]),
-    new Expert(2, [Qualification.MECH, Qualification.CHEM]),
-    new Expert(3, [Qualification.BIO, Qualification.CHEM, Qualification.ELEC]),
-    new Expert(4, [Qualification.BIO]),
-    new Expert(5, [Qualification.CHEM, Qualification.BIO]),
-    new Expert(6, [Qualification.ELEC, Qualification.MECH, Qualification.BIO, Qualification.CHEM]),
-    new Expert(7, [Qualification.ELEC, Qualification.MECH]),
-    new Expert(8, [Qualification.MECH, Qualification.BIO]),
+    new Expert(1, [ELEC]),
+    new Expert(2, [MECH, CHEM]),
+    new Expert(3, [BIO, CHEM, ELEC]),
+    new Expert(4, [BIO]),
+    new Expert(5, [CHEM, BIO]),
+    new Expert(6, [ELEC, MECH, BIO, CHEM]),
+    new Expert(7, [ELEC, MECH]),
+    new Expert(8, [MECH, BIO]),
   ]);
   const [schedule, setSchedule] = useState<Schedule>(new Schedule([
-    [Period.P1, [experts[6], experts[4], experts[0]]],
-    [Period.P2, [experts[5]]],
-    [Period.P3, [experts[0], experts[2], experts[7]]],
-    [Period.P4, [experts[5]]],
-    [Period.P5, []],
+    [P1, [experts[6], experts[4], experts[0]]],
+    [P2, [experts[5]]],
+    [P3, [experts[0], experts[2], experts[7]]],
+    [P4, [experts[5]]],
+    [P5, []],
   ]));
   const [alarms, setAlarms] = useState<Alarm[]>([
-    new Alarm("Power supply missing", Qualification.ELEC),
-    new Alarm("Tank overflow", Qualification.MECH),
-    new Alarm("CO2 detected", Qualification.CHEM),
-    new Alarm("Biological attack", Qualification.BIO),
+    new Alarm("Power supply missing", ELEC),
+    new Alarm("Tank overflow", MECH),
+    new Alarm("CO2 detected", CHEM),
+    new Alarm("Biological attack", BIO),
   ]);
   const [plant, setPlant] = useState<Plant>(new Plant(schedule, alarms));
 
+  useEffect(() => {
+    const temp = new Schedule(schedule);
+    for (const p of [...temp.keys()] as Period[]) {
+      if (!periods.includes(p)) {
+        temp.delete(p);
+      }
+    }
+    setSchedule(temp);
+  }, [periods]);
+
+  useEffect(() => {
+    const temp = new Schedule(schedule);
+    for (const [p, e] of [...temp.entries()]) {
+      temp.set(p, e.filter(x => experts.includes(x)));
+    }
+    setSchedule(temp);
+  }, [experts]);
+
+
   return (
     <>
+      <TabsForm
+        qualifications={qualifications}
+        setQualifications={setQualifications}
+        periods={periods}
+        setPeriods={setPeriods}
+        experts={experts}
+        setExperts={setExperts}
+        schedule={schedule}
+        setSchedule={setSchedule}
+        alarms={alarms}
+        setAlarms={setAlarms}
+      />
       <Grid 
         container
         spacing={4}
         direction={"column"}
         alignItems={"center"}
         justifyContent={"center"}
-        sx={{ minHeight: '100vh' }}
       >
         <Grid 
           container
@@ -55,7 +100,7 @@ function App() {
           }}
         >
           <Table 
-            schedule={plant.schedule}
+            schedule={schedule}
             experts={experts}
           />
         </Grid>

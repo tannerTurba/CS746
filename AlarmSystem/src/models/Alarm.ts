@@ -1,4 +1,4 @@
-import { Qualification } from "./Expert";
+import { Qualification } from "./Qualification";
 
 export interface OptionType {
     toString: () => string;

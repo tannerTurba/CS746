@@ -1,5 +1,5 @@
 import { Expert } from "./Expert";
-import { Period } from "./Plant";
+import { Period } from "./Period";
 
 export class Schedule extends Map<Period, Expert[]> {
     constructor(map: Iterable<readonly [Period, Expert[]]>) {

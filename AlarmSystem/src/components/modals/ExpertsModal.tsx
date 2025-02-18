@@ -6,7 +6,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
-import { Period, Plant } from '../../models/Plant';
+import { Plant } from '../../models/Plant';
+import { Period } from '../../models/Period';
 
 export interface ExpertsModalProps {
     plant: Plant,
@@ -15,7 +16,7 @@ export interface ExpertsModalProps {
 export default function ExpertsModal(props: ExpertsModalProps) {
     const { plant } = props;
 
-    const [value, setValue] = useState<Period>(Period.P1);
+    const [value, setValue] = useState<Period>();
     const [open, setOpen] = useState(false);
 
     return (

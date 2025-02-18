@@ -1,11 +1,5 @@
 import { OptionType } from "./Alarm";
-
-export enum Qualification {
-    ELEC = "Electrical",
-    MECH = "Mechanical",
-    BIO = "Biological",
-    CHEM = "Chemical",
-}
+import { Qualification } from "./Qualification";
 
 export class Expert implements OptionType {
     id: number;

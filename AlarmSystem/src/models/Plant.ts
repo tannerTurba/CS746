@@ -1,14 +1,8 @@
 import { Alarm } from "./Alarm";
-import { Expert, Qualification } from "./Expert";
+import { Expert } from "./Expert";
+import { Period } from "./Period";
+import { Qualification } from "./Qualification";
 import { Schedule } from "./Schedule";
-
-export enum Period {
-    P1 = "Monday day",
-    P2 = "Monday night",
-    P3 = "Tuesday day",
-    P4 = "Tuesday night",
-    P5 = "Wednesday day",
-}
 
 export class Plant {
     schedule: Schedule;
