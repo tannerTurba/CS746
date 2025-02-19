@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import { ISingleEntryTabProps } from "../Tabs/SingleEntryTab";
+import { ISingleEntryTabProps } from "../Tabs/QualificationsTab";
 
 export type SingleEntryFormHandle = {
     evaluateForm: () => string | undefined;

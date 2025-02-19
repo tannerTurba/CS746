@@ -1,21 +1,19 @@
 import { useState } from "react";
-import { Button, Divider, IconButton, List, ListItem, ListItemText, Stack, TextField, Typography } from "@mui/material";
+import { Button, Divider, IconButton, List, ListItem, ListItemText, TextField } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import CloseIcon from '@mui/icons-material/Close';
-import { Period } from "../../models/Period";
 import { Qualification } from "../../models/Qualification";
 
-export interface ISingleEntryTabProps<T> {
-    value: T[],
-    setValue: (val: T[]) => void,
+export interface IQualificationsTabProps {
+    value: Qualification[],
+    setValue: (val: Qualification[]) => void,
     label: string,
     helperText: string,
 }
 
-type ValidTypes = Period | Qualification;
-export default function SingleEntryTab<T extends ValidTypes>(props: ISingleEntryTabProps<T>) {
+export default function QualificationsTab(props: IQualificationsTabProps) {
     const { value, setValue, label, helperText } = props;
-    const [formVal, setFormVal] = useState<T | "" | null>("");
+    const [formVal, setFormVal] = useState<string | null>("");
 
     const evaluateForm = () => {
         if (formVal === "") {
@@ -52,18 +50,16 @@ export default function SingleEntryTab<T extends ValidTypes>(props: ISingleEntry
                     variant="standard"
                     value={formVal}
                     onChange={(e) => {
-                        for (const v of value) {
-                            if (e.target.value === v.value) {
-                                setFormVal(v);
-                            }
+                        if (e.target.value !== "") {
+                            setFormVal(e.target.value);
                         }
                     }}
                 />
                 <Button
                     onClick={() => {
                         const result = evaluateForm();
-                        if (result && !value.includes(result)) {
-                            setValue([...value, result]);
+                        if (result && !value.map(x => x.value).includes(result)) {
+                            setValue([...value, new Qualification(result)]);
                         }
                     }}
                 >

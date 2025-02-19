@@ -7,26 +7,35 @@ import { Schedule } from "./Schedule";
 export class Plant {
     schedule: Schedule;
     alarms: Alarm[];
-    isValid: boolean = true;
 
     constructor(schedule: Schedule, alarms: Alarm[]) {
         this.schedule = schedule;
         this.alarms = alarms;
+    }
 
+    updateSchedule(s: Schedule): void {
+        this.schedule = s;
+    }
+
+    updateAlarms(a: Alarm[]): void {
+        this.alarms = a;
+    }
+
+    getInvalidPeriods(): Period[] {
+        const periods: Period[] = [];
         for (const alarm of this.alarms) {
             for (const period of this.schedule.keys()) {
                 const experts = this.schedule.get(period);
-                if (experts && !this.qualificationsOk(experts, alarm.qualification)) {
-                    this.isValid = false;
-                    break;
+                if (experts && !this.qualificationSupported(experts, alarm.qualification)) {
+                    periods.push(period);
                 }
             }
+        
         }
+        return periods;
     }
 
     getNumberOfExperts(period: Period): number {
-        console.log(this.schedule);
-        console.log(this.schedule.keys());
         if ([...this.schedule.keys()].includes(period)) {
             const experts = this.schedule.get(period);
     
@@ -51,7 +60,8 @@ export class Plant {
         if (this.schedule.has(period) && this.alarms.includes(alarm)) {
             let availableExperts = this.schedule.get(period);
             if (availableExperts) {
-                availableExperts = availableExperts.filter((x) => x.qualifications.includes(alarm.qualification));
+                availableExperts = availableExperts.filter((x) => x.qualifications.map(x => x.value).includes(alarm.qualification.value));
+
                 if (availableExperts.length > 0) {
                     return availableExperts[0];
                 }
@@ -60,8 +70,8 @@ export class Plant {
         return undefined;
     }
 
-    private qualificationsOk(experts: Expert[], qualification: Qualification): boolean {
-        const allQualis = experts.map(x => x.qualifications).flat();
-        return allQualis.includes(qualification);
+    private qualificationSupported(experts: Expert[], qualification: Qualification): boolean {
+        const allQualis = experts.map(x => x.qualifications).flat().map(x => x.value);
+        return allQualis.includes(qualification.value);
     }
 }

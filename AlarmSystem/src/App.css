@@ -38,3 +38,7 @@ tfoot th {
 tfoot td {
   font-weight: bold;
 }
+
+.invalid {
+  background-color: rgb(255, 120, 120) !important;
+}

@@ -14,7 +14,7 @@ export interface IExpertsTabProps {
 export default function ExpertsTab(props: IExpertsTabProps) {
     const { experts, setExperts, qualifications } = props;
     const [idVal, setIdVal] = useState<number | "" | undefined>("");
-    const [qualiVal, setQualiVal] = useState<Qualification[] | "" | undefined>("");
+    const [qualiVal, setQualiVal] = useState<string[] | "" | undefined>("");
     const [error, setError] = useState<string>();
 
     const evaluateForm = () => {
@@ -85,20 +85,28 @@ export default function ExpertsTab(props: IExpertsTabProps) {
                         onChange={(event) => {
                             const val = event.target.value;
                             if (typeof val !== 'string') {
-                                setQualiVal(val)
+                                setQualiVal(val);
+                                // const qs: Qualification[] = [];
+                                // for (const v of val as string[]) {
+                                // qs.push(new Qualification(v))
+                                // }
+                                // setQualiVal(val)
                             }
                             else {
-                                for (const q of qualifications) {
-                                    if (val === q.value) {
-                                        if (qualiVal) {
-                                            setQualiVal([...qualiVal, q]);
-                                        }
-                                        else {
-                                            setQualiVal([q]);
-                                        }
-                                    }
-                                }
+                                setQualiVal([val]);
                             }
+                            // else {
+                            //     for (const q of qualifications) {
+                            //         if (val === q.value) {
+                            //             if (qualiVal) {
+                            //                 setQualiVal([...qualiVal, q]);
+                            //             }
+                            //             else {
+                            //                 setQualiVal([q]);
+                            //             }
+                            //         }
+                            //     }
+                            // }
                         }}
                     >
                         {qualifications.map((val, index) => {
@@ -114,7 +122,10 @@ export default function ExpertsTab(props: IExpertsTabProps) {
                     onClick={() => {
                         const success = evaluateForm();
                         if (success && idVal && qualiVal) {
-                            setExperts([...experts, {id: idVal, qualifications: qualiVal}])
+                            const qs = qualiVal.map(x => new Qualification(x));
+                            const newE = new Expert(idVal, qs);
+                            console.log(newE);
+                            setExperts([...experts, newE]);
                         }
                     }}
                 >

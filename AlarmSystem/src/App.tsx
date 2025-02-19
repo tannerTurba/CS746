@@ -70,6 +70,9 @@ function App() {
     setSchedule(temp);
   }, [experts]);
 
+  useEffect(() => {
+    setPlant(new Plant(schedule, alarms));
+  }, [alarms, schedule]);
 
   return (
     <>
@@ -100,8 +103,8 @@ function App() {
           }}
         >
           <Table 
-            schedule={schedule}
             experts={experts}
+            plant={plant}
           />
         </Grid>
         <Grid 

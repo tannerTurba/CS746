@@ -1,16 +1,21 @@
 import { Expert } from "../models/Expert";
-import { Schedule } from "../models/Schedule";
+import { Plant } from "../models/Plant";
 import { Typography } from "@mui/material";
+import { Period } from "../models/Period";
 
 export interface ITableProps {
-    schedule: Schedule,
     experts: Expert[],
+    plant: Plant,
 }
 
 export function Table(props: ITableProps) {
-    const { schedule, experts } = props;
-    let i = 0;
+    const { experts, plant } = props;
+    const schedule = plant.schedule;
+    const periods: Period[] = [...schedule.keys()];
+    const invalidPeriods = plant.getInvalidPeriods();
+    console.log(invalidPeriods);
 
+    let i = 0;
     const getKey = () => {
         i++;
         return i;
@@ -29,10 +34,10 @@ export function Table(props: ITableProps) {
                         </tr>
                     </thead>
                     <tbody>
-                        {[...schedule.keys()].map((period) => {
+                        {periods.map((period) => {
                             const scheduledExperts = schedule.get(period) ?? [];
                             return (
-                                <tr key={getKey()}>
+                                <tr key={getKey()} className={invalidPeriods.includes(period) ? "invalid" : ""}>
                                     <th key={getKey()}>{period.value}</th>
                                     {experts.map((expert) => {
                                         return <td key={getKey()}>{scheduledExperts.includes(expert) ? "ok" : ""}</td>

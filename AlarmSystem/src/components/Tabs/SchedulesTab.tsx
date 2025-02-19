@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Divider, FormControl, IconButton, InputLabel, List, ListItem, ListItemText, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Button, Divider, FormControl, IconButton, InputLabel, List, ListItem, ListItemText, MenuItem, Select, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import CloseIcon from '@mui/icons-material/Close';
 import { Expert } from "../../models/Expert";
@@ -17,7 +17,6 @@ export default function SchedulesTab(props: ISchedulesTabProps) {
     const { periods, experts, schedule, setSchedule } = props;
     const [period, setPeriod] = useState<Period | "" | undefined>("");
     const [expertsVal, setExpertsVal] = useState<Expert[] | "" | undefined>("");
-    const [error, setError] = useState<string>();
 
     const evaluateForm = () => {
         if (expertsVal === "") {
@@ -150,14 +149,6 @@ export default function SchedulesTab(props: ISchedulesTabProps) {
                 >
                     Submit
                 </Button>
-                {error && (
-                    <Typography 
-                        variant="subtitle1"
-                        color="red"
-                    >
-                        {error}
-                    </Typography>
-                )}
             </Grid>
             <Divider orientation="vertical" flexItem/>
             <Grid 

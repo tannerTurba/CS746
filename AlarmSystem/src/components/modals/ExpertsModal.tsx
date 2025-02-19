@@ -16,7 +16,7 @@ export interface ExpertsModalProps {
 export default function ExpertsModal(props: ExpertsModalProps) {
     const { plant } = props;
 
-    const [value, setValue] = useState<Period>();
+    const [period, setPeriod] = useState<Period>();
     const [open, setOpen] = useState(false);
 
     return (
@@ -43,15 +43,24 @@ export default function ExpertsModal(props: ExpertsModalProps) {
                         label="Period"
                         fullWidth
                         variant="standard"
-                        value={value}
+                        value={period}
                         onChange={(event) => {
-                            const val = event.target.value as Period;
-                            setValue(val);
+                            const val = event.target.value;
+                            if (typeof val !== 'string') {
+                                setPeriod(val)
+                            }
+                            else {
+                                for (const p of plant.schedule.keys()) {
+                                    if (val === p.value) {
+                                        setPeriod(p);
+                                    }
+                                }
+                            }
                         }}
                     >
-                        {Object.values(Period).map((val) => {
+                        {[...plant.schedule.keys()].map((val, index) => {
                             return (
-                                <MenuItem key={val.toString()} value={val}>{val.toString()}</MenuItem>
+                                <MenuItem key={index} value={val.value}>{val.value}</MenuItem>
                             );
                         })}
                     </Select>
@@ -61,9 +70,11 @@ export default function ExpertsModal(props: ExpertsModalProps) {
                     <Button onClick={()=> setOpen(false)}>Cancel</Button>
                     <Button 
                         onClick={() => {
-                            if (value) {
+                            if (period) {
                                 setOpen(false);
-                                alert(plant.getNumberOfExperts(value));
+                                alert(plant.getNumberOfExperts(period));
+
+                                setPeriod(undefined);
                             }
                         }}
                     >

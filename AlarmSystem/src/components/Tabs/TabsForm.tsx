@@ -2,7 +2,7 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import SingleEntryTab from './SingleEntryTab';
+import SingleEntryTab from './QualificationsTab';
 import ExpertsTab from './ExpertsTab';
 import { Expert } from '../../models/Expert';
 import { Qualification } from '../../models/Qualification';
@@ -11,6 +11,7 @@ import SchedulesTab from './SchedulesTab';
 import { Schedule } from '../../models/Schedule';
 import AlarmsTab from './AlarmsTab';
 import { Alarm } from '../../models/Alarm';
+import PeriodsTab from './PeriodsTab';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -82,7 +83,7 @@ export default function TabsForm(props: ITabsFormProps) {
         {
             label: 'Periods', 
             form: (
-                <SingleEntryTab 
+                <PeriodsTab 
                     value={periods}
                     setValue={setPeriods} 
                     label={'Period'} 
@@ -111,10 +112,9 @@ export default function TabsForm(props: ITabsFormProps) {
                 />
             )
         }, 
-        {label: 'Plants', form: <></>}
     ];
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (_: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
