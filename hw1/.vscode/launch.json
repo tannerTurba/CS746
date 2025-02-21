@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "hw1.App",
+            "projectName": "app"
+        },
+        {
+            "name": "Lens config: Launch DEFAULT`example",
+            "type": "vdm",
+            "request": "launch",
+            "noDebug": true,
+            "defaultName": "DEFAULT",
+            "command": "p example(1)"
+        }
+    ]
+}

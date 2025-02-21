@@ -190,7 +190,7 @@ export default function SchedulesTab(props: ISchedulesTabProps) {
                                         </ListItem>
                                     );
                                 })) : (
-                                    <Typography variant="subtitle1">No experts schedule</Typography>
+                                    <Typography variant="subtitle1">No experts scheduled</Typography>
                                 )}
                             </List>
                         </>

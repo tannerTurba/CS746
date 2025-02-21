@@ -103,7 +103,7 @@ export default function ExpertToPageModal(props: ExpertToPageModalProps) {
                                 setOpen(false);
 
                                 const expert = plant.getExpertToPage(alarm, period);
-                                alert(expert);
+                                alert(expert ?? "No experts available");
                                 setPeriod(undefined);
                             }
                         }}
