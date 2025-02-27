@@ -8,7 +8,6 @@ import { MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import { Plant } from '../../models/Plant';
 import { Expert } from '../../models/Expert';
-import { Period } from '../../models/Period';
 
 export interface ExpertOnDutyModalProps {
     experts: Expert[], 
@@ -17,9 +16,7 @@ export interface ExpertOnDutyModalProps {
 
 export default function ExpertOnDutyModal(props: ExpertOnDutyModalProps) {
     const { experts, plant } = props;
-
     const [expert, setExpert] = useState<Expert>(experts[0]);
-    const [period, setPeriod] = useState<Period>();
     const [open, setOpen] = useState(false);
 
     return (
@@ -69,49 +66,16 @@ export default function ExpertOnDutyModal(props: ExpertOnDutyModalProps) {
                             );
                         })}
                     </Select>
-
-                    <Select
-                        autoFocus
-                        required
-                        margin="dense"
-                        id="select"
-                        name="select"
-                        label="Period"
-                        fullWidth
-                        variant="standard"
-                        value={period}
-                        onChange={(event) => {
-                            const val = event.target.value;
-                            if (typeof val !== 'string') {
-                                setPeriod(val)
-                            }
-                            else {
-                                for (const p of plant.schedule.keys()) {
-                                    if (val === p.value) {
-                                        setPeriod(p);
-                                    }
-                                }
-                            }
-                        }}
-                    >
-                        {[...plant.schedule.keys()].map((val, index) => {
-                            return (
-                                <MenuItem key={index} value={val.value}>{val.value}</MenuItem>
-                            );
-                        })}
-                    </Select>
-
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={()=> setOpen(false)}>Cancel</Button>
                     <Button 
                         onClick={() => {
-                            if (expert && period) {
+                            if (expert) {
                                 setOpen(false);
 
                                 const periods = plant.getExpertSchedule(expert);
-                                alert(periods.includes(period));
-                                setPeriod(undefined);
+                                alert(periods.length > 0 ? periods.map(x => x.value).join(", ") : "Not scheduled");
                             }
                         }}
                     >

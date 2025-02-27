@@ -22,11 +22,10 @@ const P1 = new Period("Monday AM");
 const P2 = new Period("Monday PM");
 const P3 = new Period("Tuesday AM");
 const P4 = new Period("Tuesday PM");
-const P5 = new Period("Wednesday AM");
 
 function App() {
   const [qualifications, setQualifications] = useState<Qualification[]>([ELEC, MECH, BIO, CHEM]);
-  const [periods, setPeriods] = useState<Period[]>([P1, P2, P3, P4, P5]);
+  const [periods, setPeriods] = useState<Period[]>([P1, P2, P3, P4]);
   const [experts, setExperts] = useState<Expert[]>([
     new Expert(1, [ELEC]),
     new Expert(2, [MECH, CHEM]),
@@ -42,13 +41,11 @@ function App() {
     [P2, [experts[5]]],
     [P3, [experts[0], experts[2], experts[7]]],
     [P4, [experts[5]]],
-    [P5, []],
   ]));
   const [alarms, setAlarms] = useState<Alarm[]>([
     new Alarm("Power supply missing", ELEC),
     new Alarm("Tank overflow", MECH),
     new Alarm("CO2 detected", CHEM),
-    new Alarm("Biological attack", BIO),
   ]);
   const [plant, setPlant] = useState<Plant>(new Plant(schedule, alarms));
 
