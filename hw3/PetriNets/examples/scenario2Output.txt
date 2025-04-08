@@ -1,0 +1,42 @@
+Petri Net Markings: <R2,P1,P2,P3,P4,P5,P6,R1>
+
+Transition T1 fired
+<1,0,1,0,1,0,0,0,>
+
+Choose a transition to fire: [T2, T4]
+T2
+Transition T2 fired
+<0,0,0,1,1,0,0,0,>
+
+Transition T3 fired
+<1,1,0,0,1,0,0,1,>
+
+Transition T4 fired
+<0,1,0,0,0,1,0,1,>
+
+Choose a transition to fire: [T5, T1]
+T5
+Transition T5 fired
+<0,1,0,0,0,0,1,0,>
+
+Transition T6 fired
+<1,1,0,0,1,0,0,1,>
+
+Transition T1 fired
+<1,0,1,0,1,0,0,0,>
+
+Choose a transition to fire: [T2, T4]
+T2
+Transition T2 fired
+<0,0,0,1,1,0,0,0,>
+
+Transition T3 fired
+<1,1,0,0,1,0,0,1,>
+
+Transition T4 fired
+<0,1,0,0,0,1,0,1,>
+
+Choose a transition to fire: [T5, T1]
+T1
+Transition T1 fired
+<0,0,1,0,0,1,0,0,>

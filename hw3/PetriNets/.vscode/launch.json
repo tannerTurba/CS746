@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "PetriNet",
+            "request": "launch",
+            "mainClass": "PetriNet",
+            "projectName": "PetriNets_7c24ab52",
+            "args": "-f examples/scenario1.txt"
+        }
+    ]
+}
