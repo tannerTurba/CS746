@@ -43,7 +43,7 @@ public class Transition {
      */
     public void fire() {
         if (readyToFire()) {
-            System.out.printf("Transition %s fired\n", this.id);
+            // System.out.printf("Transition %s fired\n", this.id);
             for (Map.Entry<Place, Integer> entry : this.inputs.entrySet()) {
                 // Remove weighted amount of tokens from input
                 entry.getKey().removeTokens(entry.getValue());

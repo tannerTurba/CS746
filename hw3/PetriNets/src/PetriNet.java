@@ -22,8 +22,14 @@ public class PetriNet {
         if (!fileName.equals("")) {
             readFile();
             printIds();
-            while (readyToExecute()) {
-                execute();
+            ArrayList<Transition> ts = getReadyToExecute();
+            while (!ts.isEmpty()) {
+                System.out.printf("Firing transitions: %s\n", Arrays.toString(ts.toArray()));
+                for (Transition t : ts) {
+                    t.fire();
+                }
+                System.out.println(this);
+                ts = getReadyToExecute();
             }
         }
         scanner.close();
@@ -94,53 +100,47 @@ public class PetriNet {
         return result;
     }
 
-    /**
-     * Executes the Petri Net
-     */
-    public void execute() {
+    public ArrayList<Transition> getReadyToExecute() {
+        ArrayList<Transition> result = new ArrayList<>();
+        ArrayList<Transition> blacklist = new ArrayList<>();
         for (Transition t : transitions) {
-            // Check if a transition is ready to fire.
             if (t.readyToFire()) {
                 Map<Place, Integer> inputs = t.getInputs();
                 ArrayList<Transition> ts = new ArrayList<>();
                 ts.add(t);
                 for (Map.Entry<Place, Integer> i : inputs.entrySet()) {
                     for (Transition t2 : i.getKey().transitions) {
-                        if (!t2.equals(t) && !ts.contains(t2) && t2.readyToFire()) {
+                        if (!t2.equals(t) && !ts.contains(t2) && t2.readyToFire() && !blacklist.contains(t2)) {
                             // The current transition shares a resource that could fire now.
                             ts.add(t2);
                         }
                     }
                 }
-
+    
+                for (Transition set : blacklist) {
+                    ts.remove(set);
+                }
                 if (ts.size() > 1) {
+                    blacklist.addAll(ts);
+
                     // Manual decision
                     System.out.printf("Choose a transition to fire: %s\n", Arrays.toString(ts.toArray()));
                     String input = scanner.next();
-
+    
                     for (Transition transition : ts) {
                         if (transition.getId().equals(input)) {
                             // Fire the specified transition
-                            transition.fire();
+                            result.add(transition);
                         }
                     }
                 }
-                else {
+                else if(!blacklist.contains(t)) {
                     // No other transitions can fire, so just fire the current one. 
-                    t.fire();
+                    result.add(t);
                 }
-                System.out.printf("%s\n\n", this);
             }
         }
-    }
-
-    public boolean readyToExecute() {
-        for (Transition t : transitions) {
-            if (t.readyToFire()) {
-                return true;
-            }
-        }
-        return false;
+        return result;
     }
 
     /**

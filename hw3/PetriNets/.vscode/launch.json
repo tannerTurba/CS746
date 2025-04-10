@@ -17,7 +17,7 @@
             "request": "launch",
             "mainClass": "PetriNet",
             "projectName": "PetriNets_7c24ab52",
-            "args": "-f examples/scenario1.txt"
+            "args": "-f examples/scenario2.txt"
         }
     ]
 }
